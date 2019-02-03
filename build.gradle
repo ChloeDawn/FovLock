@@ -1,0 +1,69 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+buildscript {
+  repositories {
+    jcenter()
+    maven {
+      name = 'fabricmc.net'
+      url = 'https://maven.fabricmc.net'
+    }
+  }
+  dependencies {
+    classpath "net.fabricmc:fabric-loom:$loomVersion"
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'fabric-loom'
+
+archivesBaseName = 'FovLock'
+group = 'io.github.insomniakitten.fovlock'
+version = fovLockVersion
+sourceCompatibility = 1.8
+
+sourceSets {
+  api {
+    java.srcDir 'src/api/java'
+    resources.srcDir 'src/api/resources'
+  }
+  main.compileClasspath += api.compileClasspath + api.output
+}
+
+jar {
+  from sourceSets.main.output
+  from sourceSets.api.output
+}
+
+minecraft {
+  refmapName = 'mixins.fovlock.refmap.json'
+}
+
+dependencies {
+  minecraft "com.mojang:minecraft:$minecraftVersion"
+  mappings "net.fabricmc:yarn:$minecraftVersion.$mappingsVersion"
+  modCompile "net.fabricmc:fabric-loader:$loaderVersion"
+  implementation "com.google.code.findbugs:jsr305:$jsr305Version"
+}
+
+processResources {
+  filter ReplaceTokens, tokens: [
+    version: project.version,
+    refmap : minecraft.refmapName
+  ]
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allJava
+  from sourceSets.api.allJava
+}
+
+task apiJar(type: Jar) {
+  classifier = 'api'
+  from sourceSets.api.output
+}
+
+artifacts {
+  archives sourcesJar
+  archives apiJar
+}

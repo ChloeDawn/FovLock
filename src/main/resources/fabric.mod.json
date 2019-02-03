@@ -1,0 +1,17 @@
+{
+  "id": "fovlock",
+  "name": "FOV Lock",
+  "version": "@version@",
+  "descriptions": "Toggle dynamic FOV changes",
+  "side": "client",
+  "license": "Apache 2.0",
+  "authors": [
+    {
+      "name": "InsomniaKitten",
+      "website": "https://github.com/InsomniaKitten"
+    }
+  ],
+  "mixins": {
+    "common": "mixins.fovlock.json"
+  }
+}

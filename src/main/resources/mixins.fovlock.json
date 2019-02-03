@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.7.11",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@environment(DEFAULT)",
+  "refmap": "@refmap@",
+  "package": "io.github.insomniakitten.fovlock.mixin",
+  "client": [
+    "GameRendererMixin",
+    "hook.ScreenAccessor",
+    "hook.SliderWidgetAccessor",
+    "MinecraftClientMixin",
+    "OptionsScreenMixin",
+    "ScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1,
+    "defaultGroup": "default",
+    "maxShiftBy": 0
+  },
+  "overwrites": {
+    "conformVisibility": true,
+    "requireAnnotations": true
+  }
+}
