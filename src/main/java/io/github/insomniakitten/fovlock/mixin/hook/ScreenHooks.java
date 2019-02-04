@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.List;
 
 @Mixin(Screen.class)
-public interface ScreenAccessor {
+public interface ScreenHooks {
   @Accessor
   List<ButtonWidget> getButtons();
 

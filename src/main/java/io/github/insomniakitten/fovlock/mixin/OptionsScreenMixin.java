@@ -18,7 +18,7 @@ package io.github.insomniakitten.fovlock.mixin;
 
 import io.github.insomniakitten.fovlock.FovLock;
 import io.github.insomniakitten.fovlock.gui.widget.FovLockButtonWidget;
-import io.github.insomniakitten.fovlock.mixin.hook.ScreenAccessor;
+import io.github.insomniakitten.fovlock.mixin.hook.ScreenHooks;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.menu.SettingsScreen;
 import net.minecraft.client.options.GameOptions.Option;
@@ -54,6 +54,6 @@ final class OptionsScreenMixin {
     final int offset = FovLock.SLIDER_WIDTH - FovLock.BUTTON_WIDTH;
     final int x = ((Screen) (Object) this).width / 2 - 155 + buttonIndex % 2 * 160 + offset;
     final int y = ((Screen) (Object) this).height / 6 - 12 + 24 * (buttonIndex >> 1);
-    ((ScreenAccessor) (Object) this).callAddButton(new FovLockButtonWidget(x, y));
+    ((ScreenHooks) (Object) this).callAddButton(new FovLockButtonWidget(x, y));
   }
 }

@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(OptionSliderWidget.class)
-public interface SliderWidgetAccessor {
+public interface SliderWidgetHooks {
   @Accessor
   Option getOption();
 }

@@ -17,7 +17,7 @@
 package io.github.insomniakitten.fovlock.mixin;
 
 import io.github.insomniakitten.fovlock.FovLock;
-import io.github.insomniakitten.fovlock.mixin.hook.SliderWidgetAccessor;
+import io.github.insomniakitten.fovlock.mixin.hook.SliderWidgetHooks;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.OptionSliderWidget;
@@ -33,7 +33,7 @@ final class ScreenMixin {
 
   @Inject(method = "addButton", at = @At("HEAD"))
   private void setFovSliderWidth(final ButtonWidget widget, final CallbackInfoReturnable<ButtonWidget> cir) {
-    if (widget instanceof OptionSliderWidget && Option.FOV == ((SliderWidgetAccessor) widget).getOption()) {
+    if (widget instanceof OptionSliderWidget && Option.FOV == ((SliderWidgetHooks) widget).getOption()) {
       widget.setWidth(widget.getWidth() - FovLock.BUTTON_WIDTH);
     }
   }
