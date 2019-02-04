@@ -26,9 +26,13 @@ public final class FovLockButtonWidget extends LockButtonWidget {
   }
 
   @Override
-  public void onPressed(final double mouseX, final double mouseY) {
-    final boolean state = !isLocked();
+  public void setLocked(final boolean state) {
+    super.setLocked(state);
     FovLock.setEnabled(state);
-    setLocked(state);
+  }
+
+  @Override
+  public void onPressed(final double mouseX, final double mouseY) {
+    setLocked(!isLocked());
   }
 }
