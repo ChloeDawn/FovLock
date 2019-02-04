@@ -19,25 +19,5 @@ package io.github.insomniakitten.fovlock;
 public interface FovModifierFunction {
   float NULL_MODIFIER = 1.0F;
 
-  static FovModifierFunction constant(final float modifier) {
-    return lastModifier -> modifier;
-  }
-
-  static FovModifierFunction adding(final float addition) {
-    return lastModifier -> lastModifier + addition;
-  }
-
-  static FovModifierFunction subtracting(final float subtraction) {
-    return lastModifier -> lastModifier - subtraction;
-  }
-
-  static FovModifierFunction multiplying(final float multiplier) {
-    return lastModifier -> lastModifier * multiplier;
-  }
-
-  static FovModifierFunction dividing(final float divider) {
-    return lastModifier -> lastModifier / divider;
-  }
-
   float getFovModifier(final float lastModifier);
 }
