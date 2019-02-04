@@ -21,19 +21,6 @@ group = 'io.github.insomniakitten.fovlock'
 version = fovLockVersion
 sourceCompatibility = 1.8
 
-sourceSets {
-  api {
-    java.srcDir 'src/api/java'
-    resources.srcDir 'src/api/resources'
-  }
-  main.compileClasspath += api.compileClasspath + api.output
-}
-
-jar {
-  from sourceSets.main.output
-  from sourceSets.api.output
-}
-
 minecraft {
   refmapName = 'mixins.fovlock.refmap.json'
 }
@@ -50,20 +37,4 @@ processResources {
     version: project.version,
     refmap : minecraft.refmapName
   ]
-}
-
-task sourcesJar(type: Jar) {
-  classifier = 'sources'
-  from sourceSets.main.allJava
-  from sourceSets.api.allJava
-}
-
-task apiJar(type: Jar) {
-  classifier = 'api'
-  from sourceSets.api.output
-}
-
-artifacts {
-  archives sourcesJar
-  archives apiJar
 }

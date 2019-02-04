@@ -16,8 +16,6 @@
 
 package io.github.insomniakitten.fovlock;
 
-import net.fabricmc.loader.FabricLoader;
-
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,15 +28,13 @@ import java.util.Properties;
 public final class FovLock {
   public static final int BUTTON_WIDTH = 20;
   public static final int SLIDER_WIDTH = 150;
+  public static final float NULL_MODIFIER = 1.0F;
 
   private static final String FILE = "fovlock.txt";
   private static final String PROPERTY = "enabled";
 
   private static boolean enabled = true;
   private static boolean loaded = false;
-
-  @Nullable
-  private static FovModifierFunction function;
 
   private FovLock() {}
 
@@ -49,17 +45,6 @@ public final class FovLock {
   public static void setEnabled(final boolean value) {
     enabled = value;
     saveState();
-  }
-
-  public static float getFovModifier(final float fovModifier) {
-    return function == null ? FovModifierFunction.NULL_MODIFIER : function.getFovModifier(fovModifier);
-  }
-
-  @SuppressWarnings("deprecation") // fixme https://github.com/FabricMC/fabric-loader/issues/66
-  public static void loadFunction() {
-    for (final FovModifierFunction func : FabricLoader.INSTANCE.getInitializers(FovModifierFunction.class)) {
-      function = function == null ? func : last -> func.getFovModifier(function.getFovModifier(last));
-    }
   }
 
   public static void loadState() {

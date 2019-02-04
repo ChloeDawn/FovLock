@@ -29,7 +29,6 @@ final class MinecraftClientMixin {
 
   @Inject(method = "init", at = @At("HEAD"))
   private void initFovLock(final CallbackInfo ci) {
-    FovLock.loadFunction();
     FovLock.loadState();
   }
 }

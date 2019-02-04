@@ -36,6 +36,6 @@ final class GameRendererMixin {
     allow = 1
   )
   private float modifyFovModifier(final float fovModifier) {
-    return FovLock.isEnabled() ? FovLock.getFovModifier(fovModifier) : fovModifier;
+    return FovLock.isEnabled() ? FovLock.NULL_MODIFIER : fovModifier;
   }
 }
