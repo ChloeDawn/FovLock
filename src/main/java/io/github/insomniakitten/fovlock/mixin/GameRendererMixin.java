@@ -27,7 +27,7 @@ final class GameRendererMixin {
   private GameRendererMixin() {}
 
   @ModifyVariable(
-    method = "Lnet/minecraft/client/render/GameRenderer;method_3199()V",
+    method = "method_3199",
     at = @At(
       value = "INVOKE_ASSIGN",
       target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;method_3118()F"
