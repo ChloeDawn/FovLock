@@ -36,7 +36,9 @@ public final class FovLock {
   private static boolean enabled = true;
   private static boolean loaded = false;
 
-  private FovLock() {}
+  private FovLock() {
+    throw new UnsupportedOperationException();
+  }
 
   public static boolean isEnabled() {
     return enabled;

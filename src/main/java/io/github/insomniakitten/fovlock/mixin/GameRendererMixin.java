@@ -24,7 +24,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameRenderer.class)
 final class GameRendererMixin {
-  private GameRendererMixin() {}
+  private GameRendererMixin() {
+    throw new UnsupportedOperationException();
+  }
 
   @ModifyVariable(
     method = "updateMovementFovMultiplier",
@@ -35,7 +37,7 @@ final class GameRendererMixin {
     ordinal = 0,
     allow = 1
   )
-  private float modifyFovModifier(final float fovModifier) {
+  private float fovlock$modifyFovModifier(final float fovModifier) {
     return FovLock.isEnabled() ? FovLock.NULL_MODIFIER : fovModifier;
   }
 }

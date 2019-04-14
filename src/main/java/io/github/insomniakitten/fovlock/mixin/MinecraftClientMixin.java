@@ -25,10 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 final class MinecraftClientMixin {
-  private MinecraftClientMixin() {}
+  private MinecraftClientMixin() {
+    throw new UnsupportedOperationException();
+  }
 
   @Inject(method = "init", at = @At("HEAD"))
-  private void initFovLock(final CallbackInfo ci) {
+  private void fovlock$initFovLock(final CallbackInfo ci) {
     FovLock.loadState();
   }
 }

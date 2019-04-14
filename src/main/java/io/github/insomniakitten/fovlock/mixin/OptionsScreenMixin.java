@@ -31,7 +31,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(SettingsScreen.class)
 @SuppressWarnings("ConstantConditions")
 final class OptionsScreenMixin {
-  private OptionsScreenMixin() {}
+  private OptionsScreenMixin() {
+    throw new UnsupportedOperationException();
+  }
 
   @Inject(
     method = "init",
@@ -42,7 +44,7 @@ final class OptionsScreenMixin {
     locals = LocalCapture.CAPTURE_FAILHARD,
     allow = 1
   )
-  private void addFovLockButton(
+  private void fovlock$addFovLockButton(
     final CallbackInfo ci,
     final int buttonIndex,
     final GameOption[] options,

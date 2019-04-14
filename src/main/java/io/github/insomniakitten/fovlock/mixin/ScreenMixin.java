@@ -30,10 +30,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Screen.class)
 final class ScreenMixin {
-  private ScreenMixin() {}
+  private ScreenMixin() {
+    throw new UnsupportedOperationException();
+  }
 
   @Inject(method = "addButton", at = @At("HEAD"))
-  private void setFovSliderWidth(final AbstractButtonWidget widget, final CallbackInfoReturnable<ButtonWidget> cir) {
+  private void fovlock$setFovSliderWidth(final AbstractButtonWidget widget, final CallbackInfoReturnable<ButtonWidget> cir) {
     if (widget instanceof GameOptionSliderWidget && GameOption.FOV == ((SliderWidgetHooks) widget).getOption()) {
       widget.setWidth(widget.getWidth() - FovLock.BUTTON_WIDTH);
     }
