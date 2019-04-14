@@ -27,7 +27,7 @@ final class GameRendererMixin {
   private GameRendererMixin() {}
 
   @ModifyVariable(
-    method = "method_3199",
+    method = "updateMovementFovMultiplier",
     at = @At(
       value = "INVOKE_ASSIGN",
       target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;method_3118()F"

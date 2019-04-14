@@ -17,22 +17,23 @@
 package io.github.insomniakitten.fovlock.gui.widget;
 
 import io.github.insomniakitten.fovlock.FovLock;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.LockButtonWidget;
 
 public final class FovLockButtonWidget extends LockButtonWidget {
   public FovLockButtonWidget(final int x, final int y) {
-    super(400, x, y);
+    super(x, y, FovLockButtonWidget::toggleLock);
     setLocked(FovLock.isEnabled());
+  }
+
+  private static void toggleLock(final ButtonWidget widget) {
+    final LockButtonWidget lock = (LockButtonWidget) widget;
+    lock.setLocked(!lock.isLocked());
   }
 
   @Override
   public void setLocked(final boolean state) {
     super.setLocked(state);
     FovLock.setEnabled(state);
-  }
-
-  @Override
-  public void onPressed(final double mouseX, final double mouseY) {
-    setLocked(!isLocked());
   }
 }

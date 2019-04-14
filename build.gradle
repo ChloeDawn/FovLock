@@ -9,7 +9,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "net.fabricmc:fabric-loom:$loomVersion"
+    classpath "net.fabricmc:fabric-loom:$loom"
   }
 }
 
@@ -18,7 +18,7 @@ apply plugin: 'fabric-loom'
 
 archivesBaseName = 'FovLock'
 group = 'io.github.insomniakitten'
-version = fovLockVersion
+version = mod
 sourceCompatibility = 1.8
 
 minecraft {
@@ -26,15 +26,12 @@ minecraft {
 }
 
 dependencies {
-  minecraft "com.mojang:minecraft:$minecraftVersion"
-  mappings "net.fabricmc:yarn:$minecraftVersion.$mappingsVersion"
-  modCompile "net.fabricmc:fabric-loader:$loaderVersion"
-  implementation "com.google.code.findbugs:jsr305:$jsr305Version"
+  minecraft "com.mojang:minecraft:$game"
+  mappings "net.fabricmc:yarn:$game+$mappings"
+  modCompile "net.fabricmc:fabric-loader:$loader"
+  implementation "com.google.code.findbugs:jsr305:$findbugs"
 }
 
 processResources {
-  filter ReplaceTokens, tokens: [
-    version: project.version,
-    refmap : minecraft.refmapName
-  ]
+  filter ReplaceTokens, tokens: [version: version, refmap : minecraft.refmapName]
 }

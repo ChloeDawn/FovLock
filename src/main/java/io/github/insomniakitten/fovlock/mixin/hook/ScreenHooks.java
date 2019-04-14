@@ -17,7 +17,7 @@
 package io.github.insomniakitten.fovlock.mixin.hook;
 
 import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -27,8 +27,8 @@ import java.util.List;
 @Mixin(Screen.class)
 public interface ScreenHooks {
   @Accessor
-  List<ButtonWidget> getButtons();
+  List<AbstractButtonWidget> getButtons();
 
   @Invoker
-  <T extends ButtonWidget> T callAddButton(final T widget);
+  <T extends AbstractButtonWidget> T callAddButton(final T widget);
 }
