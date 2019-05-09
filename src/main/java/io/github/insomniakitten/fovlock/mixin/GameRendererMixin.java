@@ -40,7 +40,7 @@ abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceRe
   }
 
   @Inject(method = "getFov", at = @At("HEAD"), cancellable = true)
-  private void fovlock$nullifyFov(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir) {
+  private void fovlock$nullifyFovMultiplier(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir) {
     if (viewOnly && FovLock.isEnabled()) {
       cir.setReturnValue(this.client.options.fov);
     }
