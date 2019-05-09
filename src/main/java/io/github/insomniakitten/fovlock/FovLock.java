@@ -18,6 +18,8 @@ package io.github.insomniakitten.fovlock;
 
 import com.google.common.base.Preconditions;
 import lombok.SneakyThrows;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -28,6 +30,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+
+@Environment(EnvType.CLIENT)
 public final class FovLock {
   public static final int BUTTON_WIDTH = 20;
   public static final int SLIDER_WIDTH = 150;

@@ -18,6 +18,8 @@ package io.github.insomniakitten.fovlock.mixin;
 
 import io.github.insomniakitten.fovlock.FovLock;
 import io.github.insomniakitten.fovlock.gui.widget.FovLockButtonWidget;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.menu.SettingsScreen;
 import net.minecraft.client.options.Option;
@@ -28,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(SettingsScreen.class)
+@Environment(EnvType.CLIENT)
 abstract class OptionsScreenMixin extends Screen {
   private OptionsScreenMixin() {
     super(null);

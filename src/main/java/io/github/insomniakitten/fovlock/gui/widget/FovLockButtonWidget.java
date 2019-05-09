@@ -17,9 +17,12 @@
 package io.github.insomniakitten.fovlock.gui.widget;
 
 import io.github.insomniakitten.fovlock.FovLock;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.LockButtonWidget;
 
+@Environment(EnvType.CLIENT)
 public final class FovLockButtonWidget extends LockButtonWidget {
   public FovLockButtonWidget(final int x, final int y) {
     super(x, y, FovLockButtonWidget::pressed);
