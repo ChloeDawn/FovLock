@@ -16,18 +16,17 @@
 
 package io.github.insomniakitten.fovlock.gui.widget;
 
-import com.google.common.base.MoreObjects;
 import io.github.insomniakitten.fovlock.FovLock;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.LockButtonWidget;
 
 public final class FovLockButtonWidget extends LockButtonWidget {
   public FovLockButtonWidget(final int x, final int y) {
-    super(x, y, FovLockButtonWidget::toggleLock);
-    setLocked(FovLock.isEnabled());
+    super(x, y, FovLockButtonWidget::pressed);
+    super.setLocked(FovLock.isEnabled());
   }
 
-  private static void toggleLock(final ButtonWidget widget) {
+  private static void pressed(final ButtonWidget widget) {
     final LockButtonWidget lock = (LockButtonWidget) widget;
     lock.setLocked(!lock.isLocked());
   }
@@ -40,8 +39,6 @@ public final class FovLockButtonWidget extends LockButtonWidget {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("locked", isLocked())
-      .toString();
+    return String.format("FovLockButtonWidget[locked: %s]", this.isLocked());
   }
 }

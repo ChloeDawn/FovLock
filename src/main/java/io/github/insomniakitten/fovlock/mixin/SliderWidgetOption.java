@@ -16,21 +16,13 @@
 
 package io.github.insomniakitten.fovlock.mixin;
 
-import io.github.insomniakitten.fovlock.FovLock;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.widget.GameOptionSliderWidget;
+import net.minecraft.client.options.DoubleOption;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(MinecraftClient.class)
-final class MinecraftClientMixin {
-  private MinecraftClientMixin() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Inject(method = "init", at = @At("HEAD"))
-  private void fovlock$initFovLock(final CallbackInfo ci) {
-    FovLock.loadState();
-  }
+@Mixin(GameOptionSliderWidget.class)
+public interface SliderWidgetOption {
+  @Accessor
+  DoubleOption getOption();
 }

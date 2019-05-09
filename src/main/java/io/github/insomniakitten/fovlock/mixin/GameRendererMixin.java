@@ -19,25 +19,33 @@ package io.github.insomniakitten.fovlock.mixin;
 import io.github.insomniakitten.fovlock.FovLock;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
-final class GameRendererMixin {
+abstract class GameRendererMixin {
+  @Shadow private float movementFovMultiplier;
+  @Shadow private float lastMovementFovMultiplier;
+
   private GameRendererMixin() {
-    throw new UnsupportedOperationException();
+    throw new AssertionError();
   }
 
-  @ModifyVariable(
-    method = "updateMovementFovMultiplier",
+  @Inject(
+    method = "tick",
     at = @At(
-      value = "INVOKE_ASSIGN",
-      target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;method_3118()F"
-    ),
-    ordinal = 0,
-    allow = 1
+      value = "INVOKE",
+      target = "Lnet/minecraft/client/render/GameRenderer;updateMovementFovMultiplier()V",
+      shift = Shift.AFTER
+    )
   )
-  private float fovlock$modifyFovModifier(final float fovModifier) {
-    return FovLock.isEnabled() ? FovLock.NULL_MODIFIER : fovModifier;
+  private void fovlock$resetFovMultipliers(final CallbackInfo ci) {
+    if (FovLock.isEnabled()) {
+      this.movementFovMultiplier = FovLock.NULL_MODIFIER;
+      this.lastMovementFovMultiplier = FovLock.NULL_MODIFIER;
+    }
   }
 }

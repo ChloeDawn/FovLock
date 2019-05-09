@@ -16,12 +16,15 @@
 
 package io.github.insomniakitten.fovlock;
 
+import com.google.common.base.Preconditions;
+import lombok.SneakyThrows;
+
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
@@ -30,8 +33,8 @@ public final class FovLock {
   public static final int SLIDER_WIDTH = 150;
   public static final float NULL_MODIFIER = 1.0F;
 
-  private static final String FILE = "fovlock.txt";
-  private static final String PROPERTY = "enabled";
+  private static final String STATE = "fovlock.txt";
+  private static final String KEY = "enabled";
 
   private static boolean enabled = true;
   private static boolean loaded = false;
@@ -44,34 +47,44 @@ public final class FovLock {
     return enabled;
   }
 
-  public static void setEnabled(final boolean value) {
+  public static synchronized void setEnabled(final boolean value) {
     enabled = value;
     saveState();
   }
 
-  public static void loadState() {
-    if (loaded) throw new UnsupportedOperationException();
-    final Properties properties = new Properties();
-    try (final InputStream input = Files.newInputStream(Paths.get(FILE))) {
-      properties.load(input);
-    } catch (final NoSuchFileException ignored) {
-      // first run, state has never been set at runtime
-    } catch (final IOException exception) {
-      throw new IllegalStateException("Unable to load state", exception);
+  @Deprecated
+  @SneakyThrows(IOException.class)
+  public static synchronized void loadState() {
+    if (loaded) {
+      throw new UnsupportedOperationException("Already loaded");
     }
-    @Nullable final String property = properties.getProperty(PROPERTY);
-    enabled = property == null || "true".equalsIgnoreCase(property);
+    final Path stateFile = Paths.get(STATE);
+    if (Files.notExists(stateFile)) {
+      Files.createFile(stateFile);
+    }
+    final Properties properties = new Properties();
+    try (final Reader reader = Files.newBufferedReader(stateFile)) {
+      properties.load(reader);
+    }
+    @Nullable final Object property = properties.getOrDefault(KEY, "true");
+    Preconditions.checkState(property instanceof String, property);
+    enabled = "true".equalsIgnoreCase((String) property);
     loaded = true;
   }
 
-  private static void saveState() {
-    if (!loaded) throw new UnsupportedOperationException();
+  @SneakyThrows(IOException.class)
+  private static synchronized void saveState() {
+    if (!loaded) {
+      throw new IllegalStateException("Nothing to save");
+    }
+    final Path stateFile = Paths.get(STATE);
+    if (Files.notExists(stateFile)) {
+      Files.createFile(stateFile);
+    }
     final Properties properties = new Properties();
-    properties.setProperty(PROPERTY, Boolean.toString(isEnabled()));
-    try (final OutputStream output = Files.newOutputStream(Paths.get(FILE))) {
-      properties.store(output, null);
-    } catch (final IOException exception) {
-      throw new IllegalStateException("Unable to save state", exception);
+    properties.put(KEY, Boolean.toString(enabled));
+    try (final Writer writer = Files.newBufferedWriter(stateFile)) {
+      properties.store(writer, null);
     }
   }
 }

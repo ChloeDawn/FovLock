@@ -1,17 +1,33 @@
 {
+  "schemaVersion": 1,
   "id": "fovlock",
   "name": "FOV Lock",
-  "version": "@version@",
-  "descriptions": "Toggle dynamic FOV changes",
-  "side": "client",
+  "version": "$version",
+  "description": "Toggle dynamic FOV changes",
+  "environment": "client",
   "license": "Apache 2.0",
+  "requires": {
+    "fabricloader": ">=0.4.1 <0.5.0"
+  },
+  "entrypoints": {
+    "main": [
+      "io.github.insomniakitten.fovlock.FovLock::loadState"
+    ]
+  },
+  "mixins": [
+    "mixins/fovlock/mixins.json"
+  ],
   "authors": [
     {
       "name": "InsomniaKitten",
-      "website": "https://github.com/InsomniaKitten"
+      "contact": {
+        "homepage": "https://git.io/vXoUn"
+      }
     }
   ],
-  "mixins": {
-    "common": "mixins.fovlock.json"
+  "contact": {
+    "homepage": "https://git.io/fjCZi",
+    "sources": "https://git.io/fjCZi",
+    "issues": "https://git.io/fjCZP"
   }
 }
