@@ -18,6 +18,7 @@ package io.github.insomniakitten.fovlock.mixin;
 
 import io.github.insomniakitten.fovlock.FovLock;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.resource.SynchronousResourceReloadListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
-abstract class GameRendererMixin {
+abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceReloadListener {
   @Shadow private float movementFovMultiplier;
   @Shadow private float lastMovementFovMultiplier;
 
