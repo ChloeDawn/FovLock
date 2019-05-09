@@ -19,37 +19,30 @@ package io.github.insomniakitten.fovlock.mixin;
 import io.github.insomniakitten.fovlock.FovLock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.resource.SynchronousResourceReloadListener;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameRenderer.class)
 @Environment(EnvType.CLIENT)
 abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceReloadListener {
-  @Shadow private float movementFovMultiplier;
-  @Shadow private float lastMovementFovMultiplier;
+  @Shadow @Final private MinecraftClient client;
 
   private GameRendererMixin() {
     throw new AssertionError();
   }
 
-  @Inject(
-    method = "tick",
-    at = @At(
-      value = "INVOKE",
-      target = "Lnet/minecraft/client/render/GameRenderer;updateMovementFovMultiplier()V",
-      shift = Shift.AFTER
-    )
-  )
-  private void fovlock$resetFovMultipliers(final CallbackInfo ci) {
-    if (FovLock.isEnabled()) {
-      this.movementFovMultiplier = FovLock.NULL_MODIFIER;
-      this.lastMovementFovMultiplier = FovLock.NULL_MODIFIER;
+  @Inject(method = "getFov", at = @At("HEAD"), cancellable = true)
+  private void fovlock$nullifyFov(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir) {
+    if (viewOnly && FovLock.isEnabled()) {
+      cir.setReturnValue(this.client.options.fov);
     }
   }
 }

@@ -35,7 +35,6 @@ import java.util.Properties;
 public final class FovLock {
   public static final int BUTTON_WIDTH = 20;
   public static final int SLIDER_WIDTH = 150;
-  public static final float NULL_MODIFIER = 1.0F;
 
   private static final String STATE = "fovlock.txt";
   private static final String KEY = "enabled";
