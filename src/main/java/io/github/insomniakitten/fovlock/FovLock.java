@@ -64,15 +64,16 @@ public final class FovLock {
     }
     final Path stateFile = Paths.get(STATE);
     if (Files.notExists(stateFile)) {
-      Files.createFile(stateFile);
+      saveState(Files.createFile(stateFile));
+    } else {
+      final Properties properties = new Properties();
+      try (final Reader reader = Files.newBufferedReader(stateFile)) {
+        properties.load(reader);
+      }
+      @Nullable final Object property = properties.getOrDefault(KEY, "true");
+      Preconditions.checkState(property instanceof String, property);
+      enabled = "true".equalsIgnoreCase((String) property);
     }
-    final Properties properties = new Properties();
-    try (final Reader reader = Files.newBufferedReader(stateFile)) {
-      properties.load(reader);
-    }
-    @Nullable final Object property = properties.getOrDefault(KEY, "true");
-    Preconditions.checkState(property instanceof String, property);
-    enabled = "true".equalsIgnoreCase((String) property);
     loaded = true;
   }
 
@@ -85,6 +86,11 @@ public final class FovLock {
     if (Files.notExists(stateFile)) {
       Files.createFile(stateFile);
     }
+    saveState(stateFile);
+  }
+
+  @SneakyThrows(IOException.class)
+  private static synchronized void saveState(final Path stateFile) {
     final Properties properties = new Properties();
     properties.put(KEY, Boolean.toString(enabled));
     try (final Writer writer = Files.newBufferedWriter(stateFile)) {
