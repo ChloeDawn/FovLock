@@ -35,9 +35,9 @@ public final class FovLockButtonWidget extends LockButtonWidget {
   }
 
   @Override
-  public void setLocked(final boolean state) {
-    super.setLocked(state);
-    FovLock.setEnabled(state);
+  public void setLocked(final boolean locked) {
+    super.setLocked(locked);
+    FovLock.setEnabled(locked);
   }
 
   @Override
