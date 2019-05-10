@@ -20,6 +20,7 @@ import io.github.insomniakitten.fovlock.FovLock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -32,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Screen.class)
 @Environment(EnvType.CLIENT)
-abstract class ScreenMixin extends AbstractParentElement {
+abstract class ScreenMixin extends AbstractParentElement implements Drawable {
   private ScreenMixin() {
     throw new AssertionError();
   }
