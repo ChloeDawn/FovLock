@@ -50,14 +50,14 @@ public final class FovLock {
     return enabled;
   }
 
-  public static synchronized void setEnabled(final boolean value) {
+  public static void setEnabled(final boolean value) {
     enabled = value;
     saveState();
   }
 
   @Deprecated
   @SneakyThrows(IOException.class)
-  public static synchronized void loadState() {
+  public static void loadState() {
     if (loaded) {
       throw new UnsupportedOperationException("Already loaded");
     }
@@ -75,7 +75,7 @@ public final class FovLock {
   }
 
   @SneakyThrows(IOException.class)
-  private static synchronized void saveState() {
+  private static void saveState() {
     if (!loaded) {
       throw new IllegalStateException("Nothing to save");
     }
@@ -87,7 +87,7 @@ public final class FovLock {
   }
 
   @SneakyThrows(IOException.class)
-  private static synchronized void saveState(final Path stateFile) {
+  private static void saveState(final Path stateFile) {
     final Properties properties = new Properties();
     properties.setProperty(KEY, Boolean.toString(enabled));
     try (final Writer writer = Files.newBufferedWriter(stateFile)) {
