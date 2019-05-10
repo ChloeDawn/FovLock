@@ -45,6 +45,9 @@ public final class FovLock {
   }
 
   public static boolean isEnabled() {
+    if (!loaded) {
+      throw new UnsupportedOperationException("Not loaded");
+    }
     return enabled;
   }
 
