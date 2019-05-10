@@ -67,7 +67,7 @@ public final class FovLock {
       try (final Reader reader = Files.newBufferedReader(stateFile)) {
         properties.load(reader);
       }
-      enabled = "true".equalsIgnoreCase(properties.getProperty(KEY, "true"));
+      enabled = !"false".equalsIgnoreCase(properties.getProperty(KEY));
     }
     loaded = true;
   }
