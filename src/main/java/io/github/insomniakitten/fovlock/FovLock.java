@@ -28,7 +28,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-
 @Environment(EnvType.CLIENT)
 public final class FovLock {
   public static final int BUTTON_WIDTH = 20;
