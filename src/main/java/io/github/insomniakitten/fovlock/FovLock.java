@@ -16,12 +16,10 @@
 
 package io.github.insomniakitten.fovlock;
 
-import com.google.common.base.Preconditions;
 import lombok.SneakyThrows;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -69,9 +67,7 @@ public final class FovLock {
       try (final Reader reader = Files.newBufferedReader(stateFile)) {
         properties.load(reader);
       }
-      @Nullable final Object property = properties.getOrDefault(KEY, "true");
-      Preconditions.checkState(property instanceof String, property);
-      enabled = "true".equalsIgnoreCase((String) property);
+      enabled = "true".equalsIgnoreCase(properties.getProperty(KEY, "true"));
     }
     loaded = true;
   }
@@ -91,7 +87,7 @@ public final class FovLock {
   @SneakyThrows(IOException.class)
   private static synchronized void saveState(final Path stateFile) {
     final Properties properties = new Properties();
-    properties.put(KEY, Boolean.toString(enabled));
+    properties.setProperty(KEY, Boolean.toString(enabled));
     try (final Writer writer = Files.newBufferedWriter(stateFile)) {
       properties.store(writer, null);
     }
