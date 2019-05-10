@@ -33,7 +33,7 @@ public final class FovLock {
   public static final int BUTTON_WIDTH = 20;
   public static final int SLIDER_WIDTH = 150;
 
-  private static final String STATE = "fovlock.txt";
+  private static final String STATE_FILE = "fovlock.txt";
   private static final String KEY = "enabled";
 
   private static boolean enabled = true;
@@ -61,7 +61,7 @@ public final class FovLock {
     if (loaded) {
       throw new UnsupportedOperationException("Already loaded");
     }
-    final Path stateFile = Paths.get(STATE);
+    final Path stateFile = Paths.get(STATE_FILE);
     if (Files.notExists(stateFile)) {
       saveState(Files.createFile(stateFile));
     } else {
@@ -79,7 +79,7 @@ public final class FovLock {
     if (!loaded) {
       throw new IllegalStateException("Nothing to save");
     }
-    final Path stateFile = Paths.get(STATE);
+    final Path stateFile = Paths.get(STATE_FILE);
     if (Files.notExists(stateFile)) {
       Files.createFile(stateFile);
     }
