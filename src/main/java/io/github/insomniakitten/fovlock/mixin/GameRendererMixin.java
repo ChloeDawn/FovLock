@@ -19,30 +19,34 @@ package io.github.insomniakitten.fovlock.mixin;
 import io.github.insomniakitten.fovlock.FovLock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.resource.SynchronousResourceReloadListener;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(GameRenderer.class)
 @Environment(EnvType.CLIENT)
 abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceReloadListener {
-  @Shadow @Final private MinecraftClient client;
-
   private GameRendererMixin() {
     throw new AssertionError();
   }
 
-  @Inject(method = "getFov", at = @At("HEAD"), cancellable = true)
-  private void fovlock$nullifyFovMultiplier(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir) {
-    if (viewOnly && FovLock.isEnabled()) {
-      cir.setReturnValue(this.client.options.fov);
+  @Inject(
+    method = "getFov",
+    at = @At(
+      value = "FIELD",
+      target = "Lnet/minecraft/client/render/GameRenderer;lastMovementFovMultiplier:F"
+    ),
+    locals = LocalCapture.CAPTURE_FAILHARD,
+    cancellable = true
+  )
+  private void fovlock$skipFovMultiplication(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir, final double fov) {
+    if (FovLock.isEnabled()) {
+      cir.setReturnValue(fov);
     }
   }
 }
