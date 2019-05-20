@@ -39,6 +39,6 @@ public final class FovLockButtonWidget extends LockButtonWidget {
 
   @Override
   public String toString() {
-    return String.format("FovLockButtonWidget[locked: %s]", this.isLocked());
+    return "FovLockButtonWidget[locked: " + this.isLocked() + ']';
   }
 }
