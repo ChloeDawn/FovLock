@@ -9,7 +9,6 @@ eclipse/
 
 # idea
 .idea/
-*.iml
 *.ipr
 *.iws
 out/
