@@ -21,10 +21,12 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.GameOptionSliderWidget;
 import net.minecraft.client.options.DoubleOption;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(GameOptionSliderWidget.class)
 public interface SliderWidgetOption extends Drawable, Element {
-  @Accessor
-  DoubleOption getOption();
+  @Unique
+  @Accessor("option")
+  DoubleOption fovlock$getOption();
 }

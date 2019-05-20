@@ -37,7 +37,7 @@ abstract class ScreenMixin extends AbstractParentElement implements Drawable {
 
   @Inject(method = "addButton", at = @At("HEAD"))
   private void fovlock$setFovSliderWidth(final AbstractButtonWidget widget, final CallbackInfoReturnable<ButtonWidget> cir) {
-    if (widget instanceof GameOptionSliderWidget && Option.FOV == ((SliderWidgetOption) widget).getOption()) {
+    if (widget instanceof GameOptionSliderWidget && Option.FOV == ((SliderWidgetOption) widget).fovlock$getOption()) {
       widget.setWidth(widget.getWidth() - FovLock.BUTTON_WIDTH);
     }
   }
