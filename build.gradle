@@ -2,15 +2,15 @@ buildscript {
   repositories {
     mavenCentral()
     maven {
-      name = 'fabricmc.net'
+      name = 'fabricmc'
       url = 'https://maven.fabricmc.net'
     }
     maven {
-      name = 'files.minecraftforge.net'
+      name = 'minecraftforge'
       url = 'https://files.minecraftforge.net/maven'
     }
     maven {
-      name = 'jitpack.io'
+      name = 'jitpack'
       url = 'https://jitpack.io'
     }
   }
@@ -33,7 +33,7 @@ minecraft {
 
 repositories {
   maven {
-    name = 'projectlombok.org/edge-releases'
+    name = 'projectlombok:edge'
     url = 'https://projectlombok.org/edge-releases'
   }
 }
