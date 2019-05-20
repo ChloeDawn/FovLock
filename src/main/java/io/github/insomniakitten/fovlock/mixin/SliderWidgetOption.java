@@ -16,15 +16,12 @@
 
 package io.github.insomniakitten.fovlock.mixin;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.widget.GameOptionSliderWidget;
 import net.minecraft.client.options.DoubleOption;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(GameOptionSliderWidget.class)
-@Environment(EnvType.CLIENT)
 public interface SliderWidgetOption {
   @Accessor
   DoubleOption getOption();
