@@ -50,18 +50,8 @@ dependencies {
 }
 
 processResources {
-  def metadata = [
-    'fabric.mod.json', 'pack.mcmeta',
-    'mixins/fovlock/mixins.json'
-  ]
-  sourceSets.main.resources.srcDirs.with {
-    from(it) {
-      include metadata
-      expand version: version, refmap: minecraft.refmapName
-    }
-    from(it) {
-      exclude metadata
-    }
+  from(sourceSets.main.resources.srcDirs) {
+    expand version: version, refmap: minecraft.refmapName
   }
 }
 
