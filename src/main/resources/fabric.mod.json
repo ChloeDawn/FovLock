@@ -3,7 +3,7 @@
   "id": "fovlock",
   "name": "FovLock",
   "version": "$version",
-  "description": "Adds a video options button for toggling dynamic FOV changes",
+  "description": "Adds an options button for toggling dynamic FOV changes",
   "environment": "client",
   "license": "Apache 2.0",
   "icon": "pack.png",
