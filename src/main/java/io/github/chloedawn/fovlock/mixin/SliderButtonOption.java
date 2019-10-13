@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 InsomniaKitten
+ * Copyright (C) 2019 Chloe Dawn
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.insomniakitten.fovlock.mixin;
+package io.github.chloedawn.fovlock.mixin;
 
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.GameOptionSliderWidget;
 import net.minecraft.client.options.DoubleOption;
+import org.jetbrains.annotations.Contract;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(GameOptionSliderWidget.class)
-public interface SliderWidgetOption extends Drawable, Element {
-  @Unique
+public interface SliderButtonOption extends Drawable, Element {
   @Accessor("option")
+  @Contract(pure = true)
   DoubleOption fovlock$getOption();
 }

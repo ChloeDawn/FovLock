@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 InsomniaKitten
+ * Copyright (C) 2019 Chloe Dawn
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.insomniakitten.fovlock.mixin;
+package io.github.chloedawn.fovlock.mixin;
 
-import io.github.insomniakitten.fovlock.FovLock;
+import io.github.chloedawn.fovlock.FovLock;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.resource.SynchronousResourceReloadListener;
@@ -28,22 +28,15 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(GameRenderer.class)
 abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceReloadListener {
-  private GameRendererMixin() {
-    throw new AssertionError();
-  }
-
   @Inject(
     method = "getFov",
     at = @At(
       value = "FIELD",
-      target = "Lnet/minecraft/client/render/GameRenderer;lastMovementFovMultiplier:F"
-    ),
+      target = "Lnet/minecraft/client/render/GameRenderer;lastMovementFovMultiplier:F"),
     locals = LocalCapture.CAPTURE_FAILHARD,
-    cancellable = true
-  )
+    cancellable = true,
+    allow = 1)
   private void fovlock$skipFovMultiplication(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir, final double fov) {
-    if (FovLock.isEnabled()) {
-      cir.setReturnValue(fov);
-    }
+    if (FovLock.isEnabled()) cir.setReturnValue(fov);
   }
 }

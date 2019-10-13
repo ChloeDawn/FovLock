@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 InsomniaKitten
+ * Copyright (C) 2019 Chloe Dawn
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.insomniakitten.fovlock.mixin;
+package io.github.chloedawn.fovlock.mixin;
 
-import io.github.insomniakitten.fovlock.FovLock;
+import io.github.chloedawn.fovlock.FovLock;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.GameOptionSliderWidget;
@@ -31,14 +31,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Screen.class)
 abstract class ScreenMixin extends AbstractParentElement implements Drawable {
-  private ScreenMixin() {
-    throw new AssertionError();
-  }
-
   @Inject(method = "addButton", at = @At("HEAD"))
-  private void fovlock$setFovSliderWidth(final AbstractButtonWidget widget, final CallbackInfoReturnable<ButtonWidget> cir) {
-    if (widget instanceof GameOptionSliderWidget && Option.FOV == ((SliderWidgetOption) widget).fovlock$getOption()) {
-      widget.setWidth(widget.getWidth() - FovLock.BUTTON_WIDTH);
+  private void fovlock$setFovSliderWidth(final AbstractButtonWidget button, final CallbackInfoReturnable<ButtonWidget> cir) {
+    if (button instanceof GameOptionSliderWidget && Option.FOV == ((SliderButtonOption) button).fovlock$getOption()) {
+      button.setWidth(button.getWidth() - FovLock.BUTTON_WIDTH);
     }
   }
 }

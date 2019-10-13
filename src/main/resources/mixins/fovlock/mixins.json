@@ -3,12 +3,12 @@
   "minVersion": "0.7.11",
   "compatibilityLevel": "JAVA_8",
   "required": true,
-  "package": "io.github.insomniakitten.fovlock.mixin",
+  "package": "io.github.chloedawn.fovlock.mixin",
   "client": [
     "GameRendererMixin",
     "OptionsScreenMixin",
     "ScreenMixin",
-    "SliderWidgetOption"
+    "SliderButtonOption"
   ],
   "refmap": "$refmap",
   "injectors": {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 InsomniaKitten
+ * Copyright (C) 2019 Chloe Dawn
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.insomniakitten.fovlock.mixin;
+package io.github.chloedawn.fovlock.mixin;
 
-import io.github.insomniakitten.fovlock.FovLock;
-import io.github.insomniakitten.fovlock.gui.widget.FovLockButtonWidget;
-import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.menu.SettingsScreen;
+import io.github.chloedawn.fovlock.FovLock;
+import io.github.chloedawn.fovlock.gui.FovLockButton;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.SettingsScreen;
 import net.minecraft.client.options.Option;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,26 +29,22 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(SettingsScreen.class)
 abstract class OptionsScreenMixin extends Screen {
-  private OptionsScreenMixin() {
+  OptionsScreenMixin() {
     super(null);
-    throw new AssertionError();
   }
 
   @Inject(
     method = "init",
     at = @At(
       value = "INVOKE",
-      target = "Lnet/minecraft/client/options/Option;createButton(Lnet/minecraft/client/options/GameOptions;III)Lnet/minecraft/client/gui/widget/AbstractButtonWidget;"
-    ),
+      target = "Lnet/minecraft/client/options/Option;createButton(Lnet/minecraft/client/options/GameOptions;III)Lnet/minecraft/client/gui/widget/AbstractButtonWidget;"),
     locals = LocalCapture.CAPTURE_FAILHARD,
-    allow = 1
-  )
+    allow = 1)
   private void fovlock$addFovLockButton(final CallbackInfo ci, final int buttonIndex, final Option[] options, final int optionsCount, final int optionIndex, final Option option) {
     if (Option.FOV == option) {
-      final int offset = FovLock.SLIDER_WIDTH - FovLock.BUTTON_WIDTH;
-      final int x = this.width / 2 - 155 + buttonIndex % 2 * 160 + offset;
+      final int x = this.width / 2 - 155 + buttonIndex % 2 * 160 + FovLock.BUTTON_OFFSET;
       final int y = this.height / 6 - 12 + 24 * (buttonIndex >> 1);
-      this.addButton(new FovLockButtonWidget(x, y));
+      this.addButton(new FovLockButton(x, y));
     }
   }
 }

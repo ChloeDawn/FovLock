@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 InsomniaKitten
+ * Copyright (C) 2019 Chloe Dawn
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,38 @@
  * limitations under the License.
  */
 
-package io.github.insomniakitten.fovlock.gui.widget;
+package io.github.chloedawn.fovlock.gui;
 
-import io.github.insomniakitten.fovlock.FovLock;
+import io.github.chloedawn.fovlock.FovLock;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.LockButtonWidget;
+import org.jetbrains.annotations.Contract;
 
-public final class FovLockButtonWidget extends LockButtonWidget {
-  public FovLockButtonWidget(final int x, final int y) {
-    super(x, y, FovLockButtonWidget::pressed);
+import javax.annotation.Nonnull;
+import java.util.Locale;
+
+public final class FovLockButton extends LockButtonWidget {
+  public FovLockButton(final int x, final int y) {
+    super(x, y, FovLockButton::pressed);
     super.setLocked(FovLock.isEnabled());
   }
 
-  private static void pressed(final ButtonWidget widget) {
-    final LockButtonWidget lock = (LockButtonWidget) widget;
+  @Contract(mutates = "param")
+  private static void pressed(final ButtonWidget button) {
+    final LockButtonWidget lock = (LockButtonWidget) button;
     lock.setLocked(!lock.isLocked());
   }
 
   @Override
+  @Contract(mutates = "this")
   public void setLocked(final boolean locked) {
     super.setLocked(locked);
     FovLock.setEnabled(locked);
   }
 
   @Override
+  @Nonnull
   public String toString() {
-    return "FovLockButtonWidget[locked: " + this.isLocked() + ']';
+    return String.format(Locale.ROOT, "FovLockButton(locked=%s)", this.isLocked());
   }
 }

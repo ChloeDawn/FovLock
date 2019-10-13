@@ -1,17 +1,18 @@
 {
   "schemaVersion": 1,
   "id": "fovlock",
-  "name": "FOV Lock",
+  "name": "FovLock",
   "version": "$version",
-  "description": "Toggle dynamic FOV changes",
+  "description": "Adds a video options button for toggling dynamic FOV changes",
   "environment": "client",
   "license": "Apache 2.0",
-  "requires": {
-    "fabricloader": ">=0.4.1 <0.5.0"
+  "icon": "pack.png",
+  "depends": {
+    "fabricloader": ">=0.6.3"
   },
   "entrypoints": {
     "client": [
-      "io.github.insomniakitten.fovlock.FovLock::loadState"
+      "io.github.chloedawn.fovlock.FovLock::load"
     ]
   },
   "mixins": [
@@ -19,15 +20,15 @@
   ],
   "authors": [
     {
-      "name": "InsomniaKitten",
+      "name": "Chloe Dawn",
       "contact": {
-        "homepage": "https://git.io/vXoUn"
+        "homepage": "https://git.io/Jen3g"
       }
     }
   ],
   "contact": {
-    "homepage": "https://git.io/fjCZi",
-    "sources": "https://git.io/fjCZi",
-    "issues": "https://git.io/fjCZP"
+    "homepage": "https://git.io/Jelxs",
+    "sources": "https://git.io/Jelxs",
+    "issues": "https://git.io/JelxG"
   }
 }
