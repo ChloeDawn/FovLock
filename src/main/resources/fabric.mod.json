@@ -5,7 +5,7 @@
   "version": "$version",
   "description": "Adds an options button for toggling dynamic FOV changes",
   "environment": "client",
-  "license": "Apache 2.0",
+  "license": "Apache License 2.0",
   "icon": "pack.png",
   "depends": {
     "fabricloader": ">=0.6.3"
