@@ -21,7 +21,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.LockButtonWidget;
 import org.jetbrains.annotations.Contract;
 
-import javax.annotation.Nonnull;
 import java.util.Locale;
 
 public final class FovLockButton extends LockButtonWidget {
@@ -44,7 +43,6 @@ public final class FovLockButton extends LockButtonWidget {
   }
 
   @Override
-  @Nonnull
   public String toString() {
     return String.format(Locale.ROOT, "FovLockButton(locked=%s)", this.isLocked());
   }
