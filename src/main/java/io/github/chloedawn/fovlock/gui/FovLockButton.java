@@ -30,6 +30,7 @@ public final class FovLockButton extends ButtonWidget {
     super(x, y, 20, 20, I18n.translate("narrator.button.fovlock"), FovLockButton::pressed);
   }
 
+  @Contract(mutates = "param")
   private static void pressed(final ButtonWidget button) {
     final FovLockButton lock = (FovLockButton) button;
     lock.setLocked(!lock.locked);
