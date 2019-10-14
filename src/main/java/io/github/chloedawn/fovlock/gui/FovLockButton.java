@@ -84,15 +84,18 @@ public final class FovLockButton extends ButtonWidget {
     private final int u;
     private final int v;
 
+    @Contract(pure = true)
     Icon(final int u, final int v) {
       this.u = u;
       this.v = v;
     }
 
+    @Contract(pure = true)
     public final int getU() {
       return this.u;
     }
 
+    @Contract(pure = true)
     public final int getV() {
       return this.v;
     }
