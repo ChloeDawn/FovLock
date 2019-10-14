@@ -16,34 +16,85 @@
 
 package io.github.chloedawn.fovlock.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import io.github.chloedawn.fovlock.FovLock;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.LockButtonWidget;
+import net.minecraft.client.resource.language.I18n;
 import org.jetbrains.annotations.Contract;
 
 import java.util.Locale;
 
-public final class FovLockButton extends LockButtonWidget {
+public final class FovLockButton extends ButtonWidget {
+  private boolean locked = false;
+
   public FovLockButton(final int x, final int y) {
-    super(x, y, FovLockButton::pressed);
-    super.setLocked(FovLock.isEnabled());
+    super(x, y, 20, 20, I18n.translate("narrator.button.fovlock"), FovLockButton::pressed);
   }
 
-  @Contract(mutates = "param")
   private static void pressed(final ButtonWidget button) {
-    final LockButtonWidget lock = (LockButtonWidget) button;
-    lock.setLocked(!lock.isLocked());
+    final FovLockButton lock = (FovLockButton) button;
+    lock.setLocked(!lock.locked);
   }
 
-  @Override
+  @Contract(pure = true)
+  public boolean isLocked() {
+    return this.locked;
+  }
+
   @Contract(mutates = "this")
   public void setLocked(final boolean locked) {
-    super.setLocked(locked);
+    this.locked = locked;
     FovLock.setEnabled(locked);
   }
 
   @Override
   public String toString() {
-    return String.format(Locale.ROOT, "FovLockButton(locked=%s)", this.isLocked());
+    return String.format(Locale.ROOT, "FovLockButton(locked=%s)", this.locked);
+  }
+
+  @Override
+  protected String getNarrationMessage() {
+    return super.getNarrationMessage() + ". " + I18n.translate("narrator.button.fovlock." + (this.locked ? "locked" : "unlocked"));
+  }
+
+  @Override
+  public void renderButton(final int x, final int y, final float delta) {
+    MinecraftClient.getInstance().getTextureManager().bindTexture(ButtonWidget.WIDGETS_LOCATION);
+    GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+    final Icon icon;
+    if (!this.active) {
+      icon = this.locked ? Icon.LOCKED_DISABLED : Icon.UNLOCKED_DISABLED;
+    } else if (this.isHovered()) {
+      icon = this.locked ? Icon.LOCKED_HOVER : Icon.UNLOCKED_HOVER;
+    } else {
+      icon = this.locked ? Icon.LOCKED : Icon.UNLOCKED;
+    }
+    this.blit(this.x, this.y, icon.getU(), icon.getV(), this.width, this.height);
+  }
+
+  private enum Icon {
+    LOCKED(0, 146),
+    LOCKED_HOVER(0, 166),
+    LOCKED_DISABLED(0, 186),
+    UNLOCKED(20, 146),
+    UNLOCKED_HOVER(20, 166),
+    UNLOCKED_DISABLED(20, 186);
+
+    private final int u;
+    private final int v;
+
+    Icon(final int u, final int v) {
+      this.u = u;
+      this.v = v;
+    }
+
+    public final int getU() {
+      return this.u;
+    }
+
+    public final int getV() {
+      return this.v;
+    }
   }
 }
