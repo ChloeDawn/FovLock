@@ -53,6 +53,7 @@ public final class FovLock {
 
   public static void setEnabled(final boolean value) {
     Preconditions.checkState(loaded, "Not loaded");
+    Preconditions.checkState(enabled != value, value ? "Already enabled" : "Already disabled");
     enabled = value;
     writeProperties(FOVLOCK_TXT);
   }
