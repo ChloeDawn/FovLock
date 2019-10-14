@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Contract;
 import java.util.Locale;
 
 public final class FovLockButton extends ButtonWidget {
-  private boolean locked = false;
+  private boolean locked = FovLock.isEnabled();
 
   public FovLockButton(final int x, final int y) {
     super(x, y, 20, 20, I18n.translate("narrator.button.fovlock"), FovLockButton::pressed);
