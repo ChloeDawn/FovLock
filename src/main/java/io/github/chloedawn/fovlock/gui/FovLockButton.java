@@ -24,7 +24,7 @@ import net.minecraft.client.resource.language.I18n;
 import org.jetbrains.annotations.Contract;
 
 public final class FovLockButton extends ButtonWidget {
-  private boolean locked = FovLock.isEnabled();
+  private boolean locked = FovLock.isLocked();
 
   public FovLockButton(final int x, final int y) {
     super(x, y, 20, 20, I18n.translate("narrator.button.fovlock"), FovLockButton::pressed);
@@ -44,7 +44,7 @@ public final class FovLockButton extends ButtonWidget {
   @Contract(mutates = "this")
   public void setLocked(final boolean locked) {
     this.locked = locked;
-    FovLock.setEnabled(locked);
+    FovLock.setLocked(locked);
   }
 
   @Override

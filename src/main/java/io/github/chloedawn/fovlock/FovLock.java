@@ -17,6 +17,8 @@
 package io.github.chloedawn.fovlock;
 
 import com.google.common.base.Preconditions;
+import io.github.chloedawn.fovlock.api.FovLockPlugin;
+import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Contract;
@@ -35,7 +37,7 @@ public final class FovLock {
   public static final int SLIDER_WIDTH = 150;
   public static final int BUTTON_OFFSET = SLIDER_WIDTH - BUTTON_WIDTH;
 
-  private static final Logger LOGGER = LogManager.getLogger("FovLock");
+  private static final Logger LOGGER = LogManager.getLogger();
   private static final Path FOVLOCK_TXT = Paths.get("fovlock.txt");
   private static final String ENABLED = "enabled";
 
@@ -45,24 +47,30 @@ public final class FovLock {
   private FovLock() {
   }
 
-  @Contract(pure = true)
-  public static boolean isEnabled() {
-    Preconditions.checkState(loaded, "Not loaded");
+  public static boolean isLocked() {
+    Preconditions.checkState(loaded, "Environment not loaded");
     return enabled;
   }
 
-  public static void setEnabled(final boolean value) {
-    Preconditions.checkState(loaded, "Not loaded");
-    Preconditions.checkState(enabled != value, value ? "Already enabled" : "Already disabled");
-    enabled = value;
+  public static void setLocked(final boolean locked) {
+    Preconditions.checkState(loaded, "Environment not loaded");
+    Preconditions.checkState(enabled != locked, locked ? "Already locked" : "Already unlocked");
+    enabled = locked;
     writeProperties(FOVLOCK_TXT);
   }
 
   @Deprecated
   public static void load() {
-    Preconditions.checkState(!loaded, "Already loaded");
+    Preconditions.checkState(!loaded, "Environment already loaded");
     readProperties(FOVLOCK_TXT);
+    provideLockToPlugins();
     loaded = true;
+  }
+
+  private static void provideLockToPlugins() {
+    FabricLoader.getInstance().getEntrypoints(
+      "fovlock", FovLockPlugin.class
+    ).forEach(plugin -> plugin.provide(Lock.INSTANCE));
   }
 
   private static void readProperties(final Path file) {
@@ -81,6 +89,10 @@ public final class FovLock {
       writeProperties(file);
     }
 
+    readProperties(properties);
+  }
+
+  private static void readProperties(final Properties properties) {
     enabled = Boolean.parseBoolean(properties.getProperty(ENABLED, "true"));
   }
 
@@ -89,12 +101,36 @@ public final class FovLock {
 
     final Properties properties = new Properties();
 
-    properties.setProperty(ENABLED, Boolean.toString(enabled));
+    writeProperties(properties);
 
     try (final Writer writer = Files.newBufferedWriter(file)) {
       properties.store(writer, null);
     } catch (final IOException e) {
       throw new RuntimeException("Writing properties to " + file, e);
+    }
+  }
+
+  private static void writeProperties(final Properties properties) {
+    properties.setProperty(ENABLED, Boolean.toString(enabled));
+  }
+
+  private static final class Lock implements io.github.chloedawn.fovlock.api.FovLock {
+    private static final Lock INSTANCE = new Lock();
+
+    @Override
+    @Contract(pure = true)
+    public boolean isLocked() {
+      return FovLock.isLocked();
+    }
+
+    @Override
+    public void setLocked(final boolean locked) {
+      FovLock.setLocked(locked);
+    }
+
+    @Override
+    public String toString() {
+      return "FovLock";
     }
   }
 }
