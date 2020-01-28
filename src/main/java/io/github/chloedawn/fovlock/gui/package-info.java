@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-@NonNullByDefault
+@DefaultQualifier(NonNull.class)
 package io.github.chloedawn.fovlock.gui;
 
-import io.github.chloedawn.fovlock.NonNullByDefault;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;

@@ -1,6 +1,6 @@
 package io.github.chloedawn.fovlock.api;
 
-import javax.annotation.Nonnull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * The entry-point plugin API for FovLock. During environment loading,
@@ -52,5 +52,5 @@ public interface FovLockPlugin {
    * @author Chloe Dawn
    * @since 4.2.0
    */
-  void provide(@Nonnull final FovLock lock);
+  void provide(final @NonNull FovLock lock);
 }

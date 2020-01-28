@@ -115,7 +115,7 @@ public final class FovLock {
   }
 
   private static final class Lock implements io.github.chloedawn.fovlock.api.FovLock {
-    private static final Lock INSTANCE = new Lock();
+    private static final io.github.chloedawn.fovlock.api.FovLock INSTANCE = new Lock();
 
     @Override
     @Contract(pure = true)
