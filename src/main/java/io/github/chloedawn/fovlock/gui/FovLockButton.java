@@ -16,7 +16,7 @@
 
 package io.github.chloedawn.fovlock.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.chloedawn.fovlock.FovLock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -61,7 +61,7 @@ public final class FovLockButton extends ButtonWidget {
   @Override
   public void renderButton(final int x, final int y, final float delta) {
     MinecraftClient.getInstance().getTextureManager().bindTexture(ButtonWidget.WIDGETS_LOCATION);
-    GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
     final Icon icon;
     if (!this.active) {
       icon = this.locked ? Icon.LOCKED_DISABLED : Icon.UNLOCKED_DISABLED;
