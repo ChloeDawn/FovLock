@@ -21,34 +21,28 @@ import io.github.chloedawn.fovlock.FovLock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
-import org.jetbrains.annotations.Contract;
 
 public final class FovLockButton extends ButtonWidget {
-  private boolean locked = FovLock.isLocked();
+  private boolean locked = FovLock.isEnabled();
 
   public FovLockButton(final int x, final int y) {
     super(x, y, 20, 20, I18n.translate("narrator.button.fovlock"), FovLockButton::pressed);
   }
 
-  @Contract(mutates = "param")
   private static void pressed(final ButtonWidget button) {
-    final FovLockButton lock = (FovLockButton) button;
-    lock.setLocked(!lock.locked);
+    ((FovLockButton) button).setLocked(!((FovLockButton) button).locked);
   }
 
-  @Contract(pure = true)
   public boolean isLocked() {
     return this.locked;
   }
 
-  @Contract(mutates = "this")
   public void setLocked(final boolean locked) {
     this.locked = locked;
-    FovLock.setLocked(locked);
+    FovLock.setEnabled(locked);
   }
 
   @Override
-  @Contract(pure = true)
   public String toString() {
     return "FovLockButton(locked=" + this.locked + ')';
   }
@@ -84,18 +78,15 @@ public final class FovLockButton extends ButtonWidget {
     private final int u;
     private final int v;
 
-    @Contract(pure = true)
     Icon(final int u, final int v) {
       this.u = u;
       this.v = v;
     }
 
-    @Contract(pure = true)
     public final int getU() {
       return this.u;
     }
 
-    @Contract(pure = true)
     public final int getV() {
       return this.v;
     }

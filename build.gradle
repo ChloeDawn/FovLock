@@ -40,9 +40,7 @@ dependencies {
   modImplementation "net.fabricmc.fabric-api:fabric-resource-loader-v0:$resourceloader"
   include "net.fabricmc.fabric-api:fabric-resource-loader-v0:$resourceloader"
   implementation "org.checkerframework:checker-qual:$checkerqual"
-  implementation "org.jetbrains:annotations:$annotations"
   apiImplementation "org.checkerframework:checker-qual:$checkerqual"
-  apiImplementation "org.jetbrains:annotations:$annotations"
 }
 
 processResources {

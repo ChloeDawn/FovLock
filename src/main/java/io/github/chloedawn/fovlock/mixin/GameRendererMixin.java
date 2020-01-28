@@ -37,6 +37,6 @@ abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceRe
     cancellable = true,
     allow = 1)
   private void fovlock$skipFovMultiplication(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir, final double fov) {
-    if (FovLock.isLocked()) cir.setReturnValue(fov);
+    if (FovLock.isEnabled()) cir.setReturnValue(fov);
   }
 }

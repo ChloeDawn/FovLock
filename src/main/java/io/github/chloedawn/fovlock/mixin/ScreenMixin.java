@@ -22,8 +22,6 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.GameOptionSliderWidget;
-import net.minecraft.client.options.Option;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 abstract class ScreenMixin extends AbstractParentElement implements Drawable {
   @Inject(method = "addButton", at = @At("HEAD"))
   private void fovlock$setFovSliderWidth(final AbstractButtonWidget button, final CallbackInfoReturnable<ButtonWidget> cir) {
-    if (button instanceof GameOptionSliderWidget && Option.FOV == ((SliderButtonOption) button).fovlock$getOption()) {
+    if (FovLock.isFovSlider(button)) {
       button.setWidth(button.getWidth() - FovLock.BUTTON_WIDTH);
     }
   }

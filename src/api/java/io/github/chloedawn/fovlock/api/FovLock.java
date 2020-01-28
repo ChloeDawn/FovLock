@@ -1,7 +1,5 @@
 package io.github.chloedawn.fovlock.api;
 
-import org.jetbrains.annotations.Contract;
-
 /**
  * Represents the lock state of the client's field of view
  *
@@ -16,7 +14,6 @@ public interface FovLock {
    * @author Chloe Dawn
    * @since 4.2.0
    */
-  @Contract(pure = true)
   boolean isLocked();
 
   /**

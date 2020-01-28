@@ -41,7 +41,7 @@ abstract class OptionsScreenMixin extends Screen {
     locals = LocalCapture.CAPTURE_FAILHARD,
     allow = 1)
   private void fovlock$addFovLockButton(final CallbackInfo ci, final int buttonIndex, final Option[] options, final int optionsCount, final int optionIndex, final Option option) {
-    if (Option.FOV == option) {
+    if (FovLock.isFovOption(option)) {
       final int x = this.width / 2 - 155 + buttonIndex % 2 * 160 + FovLock.BUTTON_OFFSET;
       final int y = this.height / 6 - 12 + 24 * (buttonIndex >> 1);
       this.addButton(new FovLockButton(x, y));

@@ -18,10 +18,13 @@ package io.github.chloedawn.fovlock;
 
 import com.google.common.base.Preconditions;
 import io.github.chloedawn.fovlock.api.FovLockPlugin;
+import io.github.chloedawn.fovlock.mixin.SliderButtonAccessor;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.GameOptionSliderWidget;
+import net.minecraft.client.options.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Contract;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -33,12 +36,14 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public final class FovLock {
+  public static final String NAMESPACE = "fovlock";
+
   public static final int BUTTON_WIDTH = 20;
   public static final int SLIDER_WIDTH = 150;
   public static final int BUTTON_OFFSET = SLIDER_WIDTH - BUTTON_WIDTH;
 
   private static final Logger LOGGER = LogManager.getLogger();
-  private static final Path FOVLOCK_TXT = Paths.get("fovlock.txt");
+  private static final Path FILE = Paths.get(NAMESPACE + ".txt");
   private static final String ENABLED = "enabled";
 
   private static boolean loaded = false;
@@ -47,30 +52,40 @@ public final class FovLock {
   private FovLock() {
   }
 
-  public static boolean isLocked() {
-    Preconditions.checkState(loaded, "Environment not loaded");
+  public static boolean isEnabled() {
+    Preconditions.checkState(loaded, "Mod not loaded");
     return enabled;
   }
 
-  public static void setLocked(final boolean locked) {
-    Preconditions.checkState(loaded, "Environment not loaded");
-    Preconditions.checkState(enabled != locked, locked ? "Already locked" : "Already unlocked");
-    enabled = locked;
-    writeProperties(FOVLOCK_TXT);
+  public static void setEnabled(final boolean enabled) {
+    Preconditions.checkState(loaded, "Mod not loaded");
+    Preconditions.checkState(FovLock.enabled != enabled, enabled ? "Already locked" : "Already unlocked");
+    FovLock.enabled = enabled;
+    writeProperties(FILE);
+  }
+
+  public static boolean isFovSlider(final AbstractButtonWidget button) {
+    if (button instanceof GameOptionSliderWidget) {
+      return isFovOption(((SliderButtonAccessor) button).getOption());
+    }
+    return false;
+  }
+
+  public static boolean isFovOption(final Option option) {
+    return option == Option.FOV;
   }
 
   @Deprecated
   public static void load() {
-    Preconditions.checkState(!loaded, "Environment already loaded");
-    readProperties(FOVLOCK_TXT);
+    Preconditions.checkState(!loaded, "Mod already loaded");
+    readProperties(FILE);
     provideLockToPlugins();
     loaded = true;
   }
 
   private static void provideLockToPlugins() {
-    FabricLoader.getInstance().getEntrypoints(
-      "fovlock", FovLockPlugin.class
-    ).forEach(plugin -> plugin.provide(Lock.INSTANCE));
+    FabricLoader.getInstance().getEntrypoints(NAMESPACE, FovLockPlugin.class)
+      .forEach(fovLockPlugin -> fovLockPlugin.provide(Lock.INSTANCE));
   }
 
   private static void readProperties(final Path file) {
@@ -118,14 +133,13 @@ public final class FovLock {
     private static final io.github.chloedawn.fovlock.api.FovLock INSTANCE = new Lock();
 
     @Override
-    @Contract(pure = true)
     public boolean isLocked() {
-      return FovLock.isLocked();
+      return FovLock.isEnabled();
     }
 
     @Override
     public void setLocked(final boolean locked) {
-      FovLock.setLocked(locked);
+      FovLock.setEnabled(locked);
     }
 
     @Override

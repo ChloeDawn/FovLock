@@ -1,7 +1,5 @@
 package io.github.chloedawn.fovlock.api;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 /**
  * The entry-point plugin API for FovLock. During environment loading,
  * {@link FovLockPlugin#provide(FovLock)} is invoked with the field of
@@ -52,5 +50,5 @@ public interface FovLockPlugin {
    * @author Chloe Dawn
    * @since 4.2.0
    */
-  void provide(final @NonNull FovLock lock);
+  void provide(final FovLock lock);
 }
