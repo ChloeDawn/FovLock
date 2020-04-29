@@ -1,5 +1,3 @@
-import java.nio.charset.StandardCharsets
-
 plugins {
   java
   id("fabric-loom") version "0.2.7-SNAPSHOT"
@@ -37,7 +35,7 @@ tasks.withType<JavaCompile> {
   options.run {
     isFork = true
     isVerbose = true
-    encoding = StandardCharsets.UTF_8.name()
+    encoding = "UTF-8"
     compilerArgs.addAll(listOf(
       "-Xlint:all",
       "-XprintProcessorInfo",
