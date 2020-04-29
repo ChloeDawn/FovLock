@@ -1,21 +1,17 @@
 {
-  "target": "@environment(DEFAULT)",
-  "minVersion": "0.7.11",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "required": true,
-  "package": "io.github.chloedawn.fovlock.mixin",
+  "package": "dev.sapphic.fovlock.mixin",
   "client": [
     "GameRendererMixin",
     "OptionsScreenMixin",
     "ScreenMixin",
-    "SliderButtonOption"
+    "SliderButtonAccessor"
   ],
-  "refmap": "$refmap",
+  "refmap": "mixins/fovlock/refmap.json",
   "injectors": {
     "defaultRequire": 1
-  },
-  "overwrites": {
-    "conformVisibility": true,
-    "requireAnnotations": true
   }
 }

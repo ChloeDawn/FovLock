@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.chloedawn.fovlock.gui;
+package dev.sapphic.fovlock.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.chloedawn.fovlock.FovLock;
+import dev.sapphic.fovlock.FovLock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public final class FovLockButton extends ButtonWidget {
   private boolean locked = FovLock.isEnabled();
 
@@ -30,21 +32,9 @@ public final class FovLockButton extends ButtonWidget {
   }
 
   private static void pressed(final ButtonWidget button) {
-    ((FovLockButton) button).setLocked(!((FovLockButton) button).locked);
-  }
-
-  public boolean isLocked() {
-    return this.locked;
-  }
-
-  public void setLocked(final boolean locked) {
-    this.locked = locked;
+    final boolean locked = !((FovLockButton) button).locked;
+    ((FovLockButton) button).locked = locked;
     FovLock.setEnabled(locked);
-  }
-
-  @Override
-  public String toString() {
-    return "FovLockButton(locked=" + this.locked + ')';
   }
 
   @Override
@@ -64,7 +54,12 @@ public final class FovLockButton extends ButtonWidget {
     } else {
       icon = this.locked ? Icon.LOCKED : Icon.UNLOCKED;
     }
-    this.blit(this.x, this.y, icon.getU(), icon.getV(), this.width, this.height);
+    this.blit(this.x, this.y, icon.u, icon.v, this.width, this.height);
+  }
+
+  @Override
+  public String toString() {
+    return "FovLockButton(locked=" + this.locked + ')';
   }
 
   private enum Icon {
@@ -81,14 +76,6 @@ public final class FovLockButton extends ButtonWidget {
     Icon(final int u, final int v) {
       this.u = u;
       this.v = v;
-    }
-
-    public final int getU() {
-      return this.u;
-    }
-
-    public final int getV() {
-      return this.v;
     }
   }
 }

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.chloedawn.fovlock.mixin;
+package dev.sapphic.fovlock.mixin;
 
-import io.github.chloedawn.fovlock.FovLock;
+import dev.sapphic.fovlock.FovLock;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.resource.SynchronousResourceReloadListener;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(GameRenderer.class)
-abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceReloadListener {
+abstract class GameRendererMixin implements SynchronousResourceReloadListener {
   @Inject(
     method = "getFov",
     at = @At(
@@ -37,6 +37,8 @@ abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceRe
     cancellable = true,
     allow = 1)
   private void fovlock$skipFovMultiplication(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir, final double fov) {
-    if (FovLock.isEnabled()) cir.setReturnValue(fov);
+    if (FovLock.isEnabled()) {
+      cir.setReturnValue(fov);
+    }
   }
 }

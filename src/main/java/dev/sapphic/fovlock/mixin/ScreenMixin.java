@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.chloedawn.fovlock.mixin;
+package dev.sapphic.fovlock.mixin;
 
-import io.github.chloedawn.fovlock.FovLock;
+import dev.sapphic.fovlock.FovLock;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;

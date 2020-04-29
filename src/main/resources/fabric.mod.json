@@ -4,16 +4,15 @@
   "name": "FovLock",
   "version": "$version",
   "description": "Adds an options button for toggling dynamic FOV changes",
+  "license": "Apache-2.0",
   "environment": "client",
-  "license": "Apache License 2.0",
-  "icon": "pack.png",
   "depends": {
-    "fabricloader": ">=0.7.6",
-    "fabric-resource-loader-v0": ">=0.1.10"
+    "fabricloader": ">=0.8.2",
+    "fabric-resource-loader-v0": ">=0.1.14"
   },
   "entrypoints": {
     "client": [
-      "io.github.chloedawn.fovlock.FovLock::load"
+      "dev.sapphic.fovlock.FovLock::init"
     ]
   },
   "mixins": [
@@ -23,7 +22,8 @@
     {
       "name": "Chloe Dawn",
       "contact": {
-        "homepage": "https://git.io/Jen3g"
+        "email": "chloe@sapphic.dev",
+        "homepage": "https://sapphic.dev"
       }
     }
   ],
