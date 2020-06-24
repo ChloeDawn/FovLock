@@ -19,8 +19,11 @@ package dev.sapphic.fovlock.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.sapphic.fovlock.FovLock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.TranslatableText;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
@@ -28,7 +31,7 @@ public final class FovLockButton extends ButtonWidget {
   private boolean locked = FovLock.isEnabled();
 
   public FovLockButton(final int x, final int y) {
-    super(x, y, 20, 20, I18n.translate("narrator.button.fovlock"), FovLockButton::pressed);
+    super(x, y, 20, 20, new TranslatableText("narrator.button.fovlock"), FovLockButton::pressed);
   }
 
   private static void pressed(final ButtonWidget button) {
@@ -38,13 +41,14 @@ public final class FovLockButton extends ButtonWidget {
   }
 
   @Override
-  protected String getNarrationMessage() {
-    return super.getNarrationMessage() + ". " + I18n.translate("narrator.button.fovlock." + (this.locked ? "locked" : "unlocked"));
+  protected MutableText getNarrationMessage() {
+    final String key = "narrator.button.fovlock." + (this.locked ? "locked" : "unlocked");
+    return super.getNarrationMessage().append(". ").append(new TranslatableText(key));
   }
 
   @Override
-  public void renderButton(final int x, final int y, final float delta) {
-    MinecraftClient.getInstance().getTextureManager().bindTexture(ButtonWidget.WIDGETS_LOCATION);
+  public void renderButton(final MatrixStack stack, final int x, final int y, final float delta) {
+    MinecraftClient.getInstance().getTextureManager().bindTexture(AbstractButtonWidget.WIDGETS_LOCATION);
     RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
     final Icon icon;
     if (!this.active) {
@@ -54,12 +58,7 @@ public final class FovLockButton extends ButtonWidget {
     } else {
       icon = this.locked ? Icon.LOCKED : Icon.UNLOCKED;
     }
-    this.blit(this.x, this.y, icon.u, icon.v, this.width, this.height);
-  }
-
-  @Override
-  public String toString() {
-    return "FovLockButton(locked=" + this.locked + ')';
+    this.drawTexture(stack, this.x, this.y, icon.u, icon.v, this.width, this.height);
   }
 
   private enum Icon {

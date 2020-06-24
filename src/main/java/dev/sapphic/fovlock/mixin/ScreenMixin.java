@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Screen.class)
 abstract class ScreenMixin extends AbstractParentElement implements Drawable {
-  @Inject(method = "addButton", at = @At("HEAD"))
+  @Inject(method = "addButton", at = @At("HEAD"), require = 1)
   private void fovlock$setFovSliderWidth(final AbstractButtonWidget button, final CallbackInfoReturnable<ButtonWidget> cir) {
     if (FovLock.isFovSlider(button)) {
       button.setWidth(button.getWidth() - FovLock.BUTTON_WIDTH);

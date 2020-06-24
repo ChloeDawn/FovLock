@@ -16,10 +16,8 @@
 
 package dev.sapphic.fovlock;
 
-import com.google.common.base.Preconditions;
 import dev.sapphic.fovlock.mixin.SliderButtonAccessor;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
-import net.minecraft.client.gui.widget.GameOptionSliderWidget;
 import net.minecraft.client.options.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,35 +43,31 @@ public final class FovLock {
   private static final Path FILE = Paths.get(NAMESPACE + ".txt");
   private static final String ENABLED = "enabled";
 
-  private static boolean loaded = false;
   private static boolean enabled = true;
 
   private FovLock() {
     throw new UnsupportedOperationException();
   }
 
-  @ApiStatus.Internal
-  public static void init() {
-    Preconditions.checkState(!loaded, "Mod already loaded");
-    readProperties();
-    loaded = true;
-  }
-
   public static boolean isEnabled() {
-    Preconditions.checkState(loaded, "Mod not loaded");
     return enabled;
   }
 
   public static void setEnabled(final boolean enabled) {
-    Preconditions.checkState(loaded, "Mod not loaded");
-    Preconditions.checkState(FovLock.enabled != enabled, enabled ? "Already locked" : "Already unlocked");
-    FovLock.enabled = enabled;
-    writeProperties();
+    if (FovLock.enabled != enabled) {
+      FovLock.enabled = enabled;
+      writeProperties();
+    }
+  }
+
+  @ApiStatus.Internal
+  public static void init() {
+    readProperties();
   }
 
   @ApiStatus.Internal
   public static boolean isFovSlider(final AbstractButtonWidget button) {
-    return button instanceof GameOptionSliderWidget && isFovOption(((SliderButtonAccessor) button).getOption());
+    return (button instanceof SliderButtonAccessor) && isFovOption(((SliderButtonAccessor) button).getOption());
   }
 
   @ApiStatus.Internal
@@ -82,18 +76,18 @@ public final class FovLock {
   }
 
   private static void readProperties() {
-    LOGGER.debug("Reading properties from {}", FovLock.FILE);
+    LOGGER.debug("Reading properties from {}", FILE);
 
     final Properties properties = new Properties();
 
-    try (final Reader reader = Files.newBufferedReader(FovLock.FILE)) {
+    try (final Reader reader = Files.newBufferedReader(FILE)) {
       properties.load(reader);
     } catch (final NoSuchFileException e) {
       writeProperties();
     } catch (final IOException e) {
-      throw new RuntimeException("Reading properties from " + FovLock.FILE, e);
+      throw new IllegalStateException("Unable to read properties from " + FILE, e);
     } catch (final IllegalArgumentException e) {
-      LOGGER.error("Malformed properties in {}", FovLock.FILE, e);
+      LOGGER.error("Malformed properties in {}", FILE, e);
       writeProperties();
     }
 
@@ -105,16 +99,16 @@ public final class FovLock {
   }
 
   private static void writeProperties() {
-    LOGGER.debug("Writing properties to {}", FovLock.FILE);
+    LOGGER.debug("Writing properties to {}", FILE);
 
     final Properties properties = new Properties();
 
     storeProperties(properties);
 
-    try (final Writer writer = Files.newBufferedWriter(FovLock.FILE)) {
+    try (final Writer writer = Files.newBufferedWriter(FILE)) {
       properties.store(writer, null);
     } catch (final IOException e) {
-      throw new RuntimeException("Writing properties to " + FovLock.FILE, e);
+      throw new IllegalStateException("Unable to write properties to " + FILE, e);
     }
   }
 

@@ -35,6 +35,7 @@ abstract class GameRendererMixin implements SynchronousResourceReloadListener {
       target = "Lnet/minecraft/client/render/GameRenderer;lastMovementFovMultiplier:F"),
     locals = LocalCapture.CAPTURE_FAILHARD,
     cancellable = true,
+    require = 1,
     allow = 1)
   private void fovlock$skipFovMultiplication(final Camera camera, final float delta, final boolean viewOnly, final CallbackInfoReturnable<Double> cir, final double fov) {
     if (FovLock.isEnabled()) {

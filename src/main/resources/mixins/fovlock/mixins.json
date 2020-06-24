@@ -1,5 +1,4 @@
 {
-  "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_8",
   "required": true,
@@ -10,8 +9,5 @@
     "ScreenMixin",
     "SliderButtonAccessor"
   ],
-  "refmap": "mixins/fovlock/refmap.json",
-  "injectors": {
-    "defaultRequire": 1
-  }
+  "refmap": "mixins/fovlock/refmap.json"
 }
