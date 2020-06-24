@@ -1,5 +1,6 @@
 plugins {
   id("fabric-loom") version "0.4.28"
+  id("signing")
 }
 
 group = "dev.sapphic"
@@ -44,4 +45,9 @@ tasks.withType<JavaCompile> {
       "-Xlint:all", "-parameters"
     ))
   }
+}
+
+signing {
+  useGpgCmd()
+  sign(configurations.archives.get())
 }
