@@ -9,5 +9,8 @@
     "ScreenMixin",
     "SliderButtonAccessor"
   ],
-  "refmap": "mixins/fovlock/refmap.json"
+  "refmap": "mixins/fovlock/refmap.json",
+  "injectors": {
+    "maxShiftBy": 4
+  }
 }

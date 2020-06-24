@@ -33,19 +33,32 @@ abstract class OptionsScreenMixin extends Screen {
     super(null);
   }
 
+  /**
+   * Adds the FOV lock button next to the FOV option slider button
+   *
+   * <pre>{@code
+   * // Pseudo implementation
+   * this.addButton(option.createButton(this.client.options, x, y, 150));
+   * if (FovLock.isFovOption(option) {
+   *   this.addButton(new FovLockButton(x + FovLock.BUTTON_OFFSET, y));
+   * }
+   * }</pre>
+   */
   @Inject(
     method = "init",
     at = @At(
       value = "INVOKE",
-      target = "Lnet/minecraft/client/options/Option;createButton(Lnet/minecraft/client/options/GameOptions;III)Lnet/minecraft/client/gui/widget/AbstractButtonWidget;"),
+      target = "Lnet/minecraft/client/options/Option;createButton(Lnet/minecraft/client/options/GameOptions;III)Lnet/minecraft/client/gui/widget/AbstractButtonWidget;",
+      shift = At.Shift.BY, by = 2),
     locals = LocalCapture.CAPTURE_FAILHARD,
-    require = 1,
-    allow = 1)
-  private void fovlock$addFovLockButton(final CallbackInfo ci, final int buttonIndex, final Option[] options, final int optionsCount, final int optionIndex, final Option option) {
+    require = 1, allow = 1)
+  private void addFovLockButton(
+    final CallbackInfo ci, final int buttonIndex, final Option[] options,
+    final int optionsCount, final int optionIndex, final Option option,
+    final int x, final int y
+  ) {
     if (FovLock.isFovOption(option)) {
-      final int x = ((this.width / 2) - 155) + ((buttonIndex % 2) * 160) + FovLock.BUTTON_OFFSET;
-      final int y = ((this.height / 6) - 12) + (24 * (buttonIndex >> 1));
-      this.addButton(new FovLockButton(x, y));
+      this.addButton(new FovLockButton(x + FovLock.BUTTON_OFFSET, y));
     }
   }
 }

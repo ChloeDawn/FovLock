@@ -27,6 +27,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @ApiStatus.Internal
 @Mixin(DoubleOptionSliderWidget.class)
 public interface SliderButtonAccessor extends Drawable, Element {
+  /**
+   * Gets the value of associated option of this option button
+   *
+   * @return The button's option
+   */
   @Accessor
   DoubleOption getOption();
 }
